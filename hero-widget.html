@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIA AI Search Hero</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  background: #0A1420;
+  color: #FFFFFF;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ai-hero {
+  background:
+    radial-gradient(ellipse at top right, rgba(110, 79, 227, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(43, 123, 219, 0.18) 0%, transparent 55%),
+    linear-gradient(135deg, #08111C 0%, #142030 100%);
+  padding: 36px 40px 30px;
+  text-align: center;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #25B0E5;
+  background: rgba(37, 176, 229, 0.12);
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.copilot-mark {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #2B7BDB, #6E4FE3);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.copilot-mark::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: white;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.ai-hero-title {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+  line-height: 1.15;
+}
+
+.ai-hero-sub {
+  font-size: 13px;
+  color: #A8B5C5;
+  margin-bottom: 22px;
+  max-width: 560px;
+  line-height: 1.55;
+}
+
+.ai-input-wrap {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto 16px;
+  background: #08111C;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.ai-input-wrap:hover { border-color: rgba(37,176,229,0.4); }
+
+.ai-input-icon {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #2B7BDB, #6E4FE3);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ai-input-icon::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: white;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.ai-input-placeholder {
+  flex: 1;
+  text-align: left;
+  font-size: 14px;
+  color: #4A5564;
+  font-weight: 400;
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+}
+
+.ai-input-send {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #2B7BDB, #6E4FE3);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ai-input-send svg { width: 14px; height: 14px; fill: white; }
+
+.ai-prompts {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ai-prompt {
+  background: #1B2A3D;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: #A8B5C5;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  transition: all 0.15s;
+}
+.ai-prompt:hover { color: #FFFFFF; border-color: rgba(37,176,229,0.35); }
+</style>
+</head>
+<body>
+<section class="ai-hero">
+  <div class="ai-hero-eyebrow">
+    <span class="copilot-mark"></span>
+    Microsoft Copilot
+  </div>
+  <h1 class="ai-hero-title">Ask anything. Find anything.</h1>
+  <p class="ai-hero-sub">Search RIA's intranet, documents, and team knowledge — or ask Copilot a quick question to help with your work.</p>
+
+  <a class="ai-input-wrap" href="https://copilot.cloud.microsoft" target="_blank">
+    <div class="ai-input-icon"></div>
+    <div class="ai-input-placeholder">How can I help you today?</div>
+    <div class="ai-input-send">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+    </div>
+  </a>
+
+  <div class="ai-prompts">
+    <a class="ai-prompt" href="https://copilot.cloud.microsoft" target="_blank">Find files about Q3 strategy</a>
+    <a class="ai-prompt" href="https://copilot.cloud.microsoft" target="_blank">Summarize last Lunch &amp; Learn</a>
+    <a class="ai-prompt" href="https://copilot.cloud.microsoft" target="_blank">Who's the CFP® for retirement?</a>
+    <a class="ai-prompt" href="https://copilot.cloud.microsoft" target="_blank">Open the compliance checklist</a>
+  </div>
+</section>
+</body>
+</html>

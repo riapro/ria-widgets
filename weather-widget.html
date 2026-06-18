@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIA Weather</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #142030;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    padding: 4px 0;
+  }
+  .weather-list { display: flex; flex-direction: column; }
+  .weather-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .weather-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .weather-city { font-size: 13px; font-weight: 500; }
+  .weather-city .state {
+    color: #6B7888;
+    font-size: 11px;
+    margin-left: 4px;
+    font-weight: 400;
+  }
+  .weather-city .time {
+    display: block;
+    font-size: 10px;
+    color: #6B7888;
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .weather-temp {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .weather-temp .icon { font-size: 15px; }
+  .loading { color: #6B7888; font-size: 12px; padding: 8px 0; }
+  .error { color: #E5634C; font-size: 11px; padding: 8px 0; }
+</style>
+</head>
+<body>
+
+<div class="weather-list" id="weather-list">
+  <div class="loading">Loading weather…</div>
+</div>
+
+<script>
+const cities = [
+  { name: 'Houston', state: 'TX', lat: 29.7604, lon: -95.3698, tz: 'America/Chicago' },
+  { name: 'Austin',  state: 'TX', lat: 30.2672, lon: -97.7431, tz: 'America/Chicago' },
+  { name: 'Durango', state: 'CO', lat: 37.2753, lon: -107.8801, tz: 'America/Denver' },
+  { name: 'Washington', state: 'DC', lat: 38.9072, lon: -77.0369, tz: 'America/New_York' },
+];
+
+// WMO weather codes → emoji + description
+function weatherIcon(code) {
+  if (code === 0)               return '☀';
+  if (code <= 2)                return '🌤';
+  if (code === 3)               return '☁';
+  if (code <= 48)               return '🌫';
+  if (code <= 55)               return '🌦';
+  if (code <= 65)               return '🌧';
+  if (code <= 77)               return '❄';
+  if (code <= 82)               return '🌧';
+  if (code <= 86)               return '🌨';
+  return '⛈';
+}
+
+function localTime(tz) {
+  return new Date().toLocaleTimeString('en-US', {
+    timeZone: tz,
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+}
+
+async function fetchWeather(city) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=${encodeURIComponent(city.tz)}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return {
+    temp: Math.round(data.current.temperature_2m),
+    code: data.current.weather_code
+  };
+}
+
+async function render() {
+  const list = document.getElementById('weather-list');
+  try {
+    const results = await Promise.all(cities.map(fetchWeather));
+    list.innerHTML = cities.map((city, i) => `
+      <div class="weather-row">
+        <div class="weather-city">
+          ${city.name}<span class="state">${city.state}</span>
+          <span class="time">${localTime(city.tz)}</span>
+        </div>
+        <div class="weather-temp">
+          <span class="icon">${weatherIcon(results[i].code)}</span>
+          ${results[i].temp}°
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    list.innerHTML = '<div class="error">Unable to load weather data.</div>';
+  }
+}
+
+render();
+// Refresh every 10 minutes
+setInterval(render, 10 * 60 * 1000);
+</script>
+</body>
+</html>
